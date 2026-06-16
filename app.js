@@ -2037,15 +2037,24 @@ function renderAllQuizTabs() {
   renderQuizTab(8, "Full 150-Question Simulator", shuffled);
 }
 
-function shuffleFullExam() {
-  // Clear only Tab 8 answers/submissions that are not yet graded
-  const shuffled = shuffleArray([...QUESTIONS]);
-  renderQuizTab(8, "Full 150-Question Simulator", shuffled);
-  // Re-apply any previously submitted answers on the new render
-  restoreSubmittedState(8);
-  // Scroll to top of the tab
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+function getTabQuestions(tabIndex) {
+  if (tabIndex === 8) {
+    return [...QUESTIONS];
+  }
+  const cat = TAB_CATEGORIES[tabIndex];
+  return QUESTIONS.filter(q => q.category === cat);
 }
+
+window.shuffleTab = function(tabIndex) {
+  const title = tabIndex === 8 
+    ? "Full 150-Question Simulator" 
+    : TAB_CATEGORIES[tabIndex];
+  const questions = getTabQuestions(tabIndex);
+  const shuffled = shuffleArray([...questions]);
+  renderQuizTab(tabIndex, title, shuffled);
+  restoreSubmittedState(tabIndex);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 
 function restoreSubmittedState(tabIndex) {
   const pane = document.getElementById(`tab-${tabIndex}`);
@@ -2092,9 +2101,7 @@ function renderQuizTab(tabIndex, title, questions) {
   const pane = document.getElementById(`tab-${tabIndex}`);
   if (!pane) return;
 
-  const shuffleBtn = tabIndex === 8
-    ? `<button class="btn-shuffle" onclick="shuffleFullExam()" title="Shuffle question order">🔀 Shuffle</button>`
-    : '';
+  const shuffleBtn = `<button class="btn-shuffle" onclick="shuffleTab(${tabIndex})" title="Shuffle question order">🔀 Shuffle</button>`;
 
   pane.innerHTML = `
     <div class="section-header">
