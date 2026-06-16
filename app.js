@@ -1852,8 +1852,55 @@ const TAB_CATEGORIES = [
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
+// ---------- Password Security ----------
+const TARGET_PASSWORD_HASH = "79f75d16"; // Hash of "Salesforce2026"
+
+function djb2(str) {
+  let hash = 5381;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) + str.charCodeAt(i);
+  }
+  return (hash >>> 0).toString(16);
+}
+
+window.checkPassword = function(e) {
+  if (e) e.preventDefault();
+  const input = document.getElementById("password-input");
+  const errorEl = document.getElementById("password-error");
+  if (!input) return;
+
+  const entered = input.value;
+  if (djb2(entered) === TARGET_PASSWORD_HASH) {
+    unlockApp();
+  } else {
+    if (errorEl) errorEl.style.display = "block";
+    input.value = "";
+    input.focus();
+  }
+};
+
+function unlockApp(instant = false) {
+  sessionStorage.setItem("simulator_unlocked", "true");
+  const overlay = document.getElementById("password-overlay");
+  const header = $(".app-header");
+  const main = $("#app-container");
+
+  if (overlay) {
+    if (instant) {
+      overlay.style.transition = "none";
+      overlay.style.display = "none";
+    }
+    overlay.classList.add("unlocked");
+  }
+  if (header) header.classList.remove("hidden");
+  if (main) main.classList.remove("hidden");
+}
+
 // ---------- Initialization ----------
 document.addEventListener("DOMContentLoaded", () => {
+  if (sessionStorage.getItem("simulator_unlocked") === "true") {
+    unlockApp(true);
+  }
   renderTabButtons();
   renderDashboard();
   renderAllQuizTabs();
