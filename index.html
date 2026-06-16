@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Salesforce Certified Platform Administrator (PLAT-ADMN-201) Exam Simulator with 150 practice questions, study and exam modes, and real-time scoring.">
+  <title>Salesforce Admin Exam Simulator — PLAT-ADMN-201</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+</head>
+<body>
+
+  <!-- ===== APP HEADER ===== -->
+  <header class="app-header">
+    <div class="header-top">
+      <!-- Brand -->
+      <div class="header-brand">
+        <div class="logo-icon">☁️</div>
+        <h1>
+          Salesforce Admin Simulator
+          <span>PLAT-ADMN-201 · 150 Practice Questions</span>
+        </h1>
+      </div>
+
+      <!-- Global Score Matrix -->
+      <div class="score-matrix">
+        <div class="score-pill" id="pill-progress">
+          📝 Progress: <span class="pill-value">0/150</span>
+        </div>
+        <div class="score-pill" id="pill-score">
+          🎯 Score: <span class="pill-value">0.0%</span>
+        </div>
+        <div class="score-pill" id="pill-status">
+          📊 Status: <span class="pill-value">Not Started</span>
+        </div>
+
+        <!-- Exam Timer (hidden by default) -->
+        <div class="exam-timer" id="exam-timer">
+          <span class="timer-icon">⏱️</span>
+          <span id="timer-text">01:45:00</span>
+        </div>
+
+        <!-- Submit Exam Button (hidden by default) -->
+        <button class="submit-exam-btn" id="submit-exam-btn">Submit Exam</button>
+      </div>
+
+      <!-- Mode Toggle -->
+      <div class="mode-toggle-wrapper">
+        <label for="mode-toggle">Study</label>
+        <input type="checkbox" class="toggle-switch" id="mode-toggle" aria-label="Toggle between Study and Exam mode">
+        <label for="mode-toggle">Exam</label>
+      </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" id="tab-nav" role="tablist" aria-label="Exam sections"></nav>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main id="app-container">
+    <div class="tab-content">
+      <!-- Tab 0: Dashboard & Guide -->
+      <div class="tab-pane active" id="tab-0" role="tabpanel"></div>
+
+      <!-- Tab 1: Configuration and Setup -->
+      <div class="tab-pane" id="tab-1" role="tabpanel"></div>
+
+      <!-- Tab 2: Object Manager and Lightning App Builder -->
+      <div class="tab-pane" id="tab-2" role="tabpanel"></div>
+
+      <!-- Tab 3: Sales and Marketing Applications -->
+      <div class="tab-pane" id="tab-3" role="tabpanel"></div>
+
+      <!-- Tab 4: Service and Support Applications -->
+      <div class="tab-pane" id="tab-4" role="tabpanel"></div>
+
+      <!-- Tab 5: Productivity and Collaboration -->
+      <div class="tab-pane" id="tab-5" role="tabpanel"></div>
+
+      <!-- Tab 6: Data and Analytics Management -->
+      <div class="tab-pane" id="tab-6" role="tabpanel"></div>
+
+      <!-- Tab 7: Automation and Agentforce -->
+      <div class="tab-pane" id="tab-7" role="tabpanel"></div>
+
+      <!-- Tab 8: Full 150-Question Simulator -->
+      <div class="tab-pane" id="tab-8" role="tabpanel"></div>
+    </div>
+  </main>
+
+  <!-- ===== EXAM RESULTS OVERLAY ===== -->
+  <div class="results-overlay" id="results-overlay">
+    <div class="results-modal"></div>
+  </div>
+
+  <!-- ===== APPLICATION SCRIPT ===== -->
+  <script src="app.js"></script>
+
+</body>
+</html>
