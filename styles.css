@@ -9,31 +9,31 @@
 /* ---------- Design Tokens ---------- */
 :root {
   /* Primary Salesforce palette */
-  --sf-blue-dark: #032D60;
-  --sf-blue-primary: #0176D3;
-  --sf-blue-light: #1B96FF;
+  --sf-blue-dark: #57CBFF;
+  --sf-blue-primary: #1B96FF;
+  --sf-blue-light: #0176D3;
   --sf-blue-accent: #57CBFF;
-  --sf-blue-wash: #EEF4FF;
+  --sf-blue-wash: #1A2332;
 
-  /* Neutral palette */
-  --bg-workspace: #F3F3F3;
-  --bg-card: #FFFFFF;
-  --bg-sidebar: #FAFBFC;
-  --text-primary: #181818;
-  --text-secondary: #444746;
-  --text-muted: #706E6B;
-  --border-color: #D8D8D8;
-  --border-light: #E5E5E5;
+  /* Neutral palette - DARK MODE */
+  --bg-workspace: #0F1419;
+  --bg-card: #1A1F2E;
+  --bg-sidebar: #141923;
+  --text-primary: #E8E8E8;
+  --text-secondary: #B8B9BB;
+  --text-muted: #8E9199;
+  --border-color: #2D3340;
+  --border-light: #252A36;
 
   /* Feedback colors */
-  --color-correct: #2E844A;
-  --color-correct-bg: #E3F8E8;
-  --color-correct-border: #91DB8B;
-  --color-incorrect: #C23934;
-  --color-incorrect-bg: #FEE0E0;
-  --color-incorrect-border: #F09E9B;
+  --color-correct: #3CB371;
+  --color-correct-bg: #1A3328;
+  --color-correct-border: #2E6B4A;
+  --color-incorrect: #E74C3C;
+  --color-incorrect-bg: #3D1F1E;
+  --color-incorrect-border: #8B3A36;
   --color-warning: #FE9339;
-  --color-warning-bg: #FFF4E5;
+  --color-warning-bg: #3D2B1A;
 
   /* UI accents */
   --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
@@ -368,14 +368,14 @@ body {
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 6px;
-  color: var(--sf-blue-dark);
+  color: var(--sf-blue-accent);
 }
 
 .dash-card h3 {
   font-size: .95rem;
   font-weight: 600;
   margin-bottom: 10px;
-  color: var(--sf-blue-primary);
+  color: var(--sf-blue-accent);
 }
 
 .dash-card p {
@@ -394,10 +394,11 @@ body {
 .stat-box {
   flex: 1;
   min-width: 120px;
-  background: var(--sf-blue-wash);
+  background: #1A2B3D;
   border-radius: var(--radius-md);
   padding: 14px;
   text-align: center;
+  border: 1px solid var(--border-color);
 }
 
 .stat-box .stat-value {
@@ -446,11 +447,12 @@ body {
 .topic-weight {
   margin-left: auto;
   font-weight: 700;
-  color: var(--sf-blue-primary);
+  color: var(--sf-blue-accent);
   font-size: .82rem;
-  background: var(--sf-blue-wash);
+  background: #1A2B3D;
   padding: 2px 10px;
   border-radius: 50px;
+  border: 1px solid var(--border-color);
 }
 
 /* Full-width card */
@@ -477,7 +479,7 @@ body {
 .section-header h2 {
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--sf-blue-dark);
+  color: var(--sf-blue-accent);
 }
 
 .section-header .section-progress {
@@ -578,14 +580,15 @@ body {
 
 .multi-badge {
   display: inline-block;
-  background: #F0E6FA;
-  color: #6B3FA0;
+  background: #2A2040;
+  color: #B58FDB;
   font-size: .68rem;
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 50px;
   margin-left: 8px;
   vertical-align: middle;
+  border: 1px solid #3D2A5C;
 }
 
 /* Answer Options */
@@ -610,12 +613,12 @@ body {
 
 .option-item:hover {
   border-color: var(--sf-blue-light);
-  background: var(--sf-blue-wash);
+  background: #1A2B3D;
 }
 
 .option-item.selected {
   border-color: var(--sf-blue-primary);
-  background: var(--sf-blue-wash);
+  background: #1A2B3D;
 }
 
 .option-item.correct {
@@ -688,7 +691,7 @@ body {
   flex-shrink: 0;
   width: 26px;
   height: 26px;
-  background: var(--bg-workspace);
+  background: #0F1419;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -696,6 +699,7 @@ body {
   font-weight: 700;
   color: var(--text-muted);
   margin-top: 0;
+  border: 1px solid var(--border-color);
 }
 
 .option-text {
@@ -742,13 +746,13 @@ body {
 }
 
 .btn-submit.secondary {
-  background: var(--bg-workspace);
+  background: #0F1419;
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
 }
 
 .btn-submit.secondary:hover {
-  background: var(--border-light);
+  background: #1A2332;
 }
 
 /* Explanation Panel */
@@ -756,10 +760,11 @@ body {
   display: none;
   margin: 0 24px 20px;
   padding: 18px;
-  background: #F0F7FF;
+  background: #1A2B3D;
   border-radius: var(--radius-md);
   border-left: 4px solid var(--sf-blue-primary);
   animation: fadeSlideIn .3s ease;
+  border: 1px solid var(--border-color);
 }
 
 .explanation-panel.visible { display: block; }
@@ -767,7 +772,7 @@ body {
 .explanation-panel h4 {
   font-size: .82rem;
   font-weight: 700;
-  color: var(--sf-blue-dark);
+  color: var(--sf-blue-accent);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -785,7 +790,7 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(3,45,96,.7);
+  background: rgba(15,20,25,.85);
   backdrop-filter: blur(10px);
   z-index: 1000;
   place-items: center;
@@ -883,10 +888,11 @@ body {
 }
 
 .result-stat {
-  background: var(--bg-workspace);
+  background: #0F1419;
   border-radius: var(--radius-md);
   padding: 16px;
   text-align: center;
+  border: 1px solid var(--border-color);
 }
 
 .result-stat .rs-value {
@@ -914,8 +920,8 @@ body {
 .results-section-table th {
   text-align: left;
   padding: 8px 12px;
-  background: var(--sf-blue-wash);
-  color: var(--sf-blue-dark);
+  background: #1A2B3D;
+  color: var(--sf-blue-accent);
   font-weight: 600;
   border-bottom: 2px solid var(--sf-blue-primary);
 }
@@ -978,7 +984,7 @@ body {
 .password-overlay {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, #0B3A78 0%, #031D3F 100%);
+  background: radial-gradient(circle at center, #1A2B3D 0%, #0A0E14 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1011,12 +1017,12 @@ body {
   place-items: center;
   width: 64px;
   height: 64px;
-  background: var(--sf-blue-wash);
+  background: #1A2B3D;
   border-radius: 50%;
   font-size: 28px;
   margin-bottom: 16px;
-  color: var(--sf-blue-primary);
-  border: 1px solid var(--sf-blue-accent);
+  color: var(--sf-blue-accent);
+  border: 1px solid var(--sf-blue-primary);
   margin-left: auto;
   margin-right: auto;
 }
@@ -1024,7 +1030,7 @@ body {
 .password-card h2 {
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--sf-blue-dark);
+  color: var(--sf-blue-accent);
   margin-bottom: 8px;
 }
 
