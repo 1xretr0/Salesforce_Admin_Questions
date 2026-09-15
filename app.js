@@ -1999,13 +1999,26 @@ function getTabQuestions(tabIndex) {
 }
 
 window.shuffleTab = function(tabIndex) {
-  const title = tabIndex === 8 
-    ? "Full 150-Question Simulator" 
+  const title = tabIndex === 8
+    ? "Full 150-Question Simulator"
     : TAB_CATEGORIES[tabIndex];
   const questions = getTabQuestions(tabIndex);
-  const shuffled = shuffleArray([...questions]);
+
+  // Reset this section's questions back to un-answered
+  questions.forEach(q => {
+    delete state.answers[q.id];
+    delete state.submitted[q.id];
+  });
+
+  // Shuffle both question order AND answer choices within each question
+  const shuffled = shuffleArray([...questions]).map(q => ({
+    ...q,
+    options: shuffleArray([...q.options])
+  }));
+
   renderQuizTab(tabIndex, title, shuffled);
-  restoreSubmittedState(tabIndex);
+  updateScoreMatrix();
+  updateTabProgress();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 };
 
@@ -2026,8 +2039,16 @@ function restoreSubmittedState(tabIndex) {
       options.forEach(opt => {
         const l = opt.dataset.letter;
         opt.classList.add('disabled');
-        if (q.answer.includes(l)) opt.classList.add('correct');
-        else if (userAnswers.includes(l)) opt.classList.add('incorrect');
+        opt.setAttribute('aria-disabled', 'true');
+        if (q.answer.includes(l)) {
+          opt.classList.add('correct');
+          opt.setAttribute('aria-checked', 'true');
+        } else if (userAnswers.includes(l)) {
+          opt.classList.add('incorrect');
+          opt.setAttribute('aria-checked', 'false');
+        } else {
+          opt.setAttribute('aria-checked', 'false');
+        }
       });
       const btn = $(`#submit-${qid}`);
       if (btn) btn.style.display = 'none';
@@ -2044,7 +2065,9 @@ function restoreSubmittedState(tabIndex) {
       const options = card.querySelectorAll('.option-item');
       options.forEach(opt => {
         const l = opt.dataset.letter;
-        opt.classList.toggle('selected', userAnswers.includes(l));
+        const isSelected = userAnswers.includes(l);
+        opt.classList.toggle('selected', isSelected);
+        opt.setAttribute('aria-checked', isSelected ? 'true' : 'false');
       });
     }
   });
@@ -2073,7 +2096,7 @@ function renderQuizTab(tabIndex, title, questions) {
 function renderQuestionCard(q) {
   const isMulti = q.multi;
   return `
-    <div class="question-card" id="qcard-${q.id}" data-qid="${q.id}">
+    <div class="question-card" id="qcard-${q.id}" data-qid="${q.id}" tabindex="0" role="group" aria-label="Question ${q.id}">
       <div class="question-header">
         <div class="question-number ${isMulti ? 'multi-select' : ''}">Q${q.id}</div>
         <div class="question-body">
@@ -2083,9 +2106,9 @@ function renderQuestionCard(q) {
           </div>
         </div>
       </div>
-      <div class="options-list" id="options-${q.id}">
+      <div class="options-list" id="options-${q.id}" role="${isMulti ? 'group' : 'radiogroup'}">
         ${q.options.map(opt => `
-          <div class="option-item" data-qid="${q.id}" data-letter="${opt.letter}" onclick="selectOption(${q.id},'${opt.letter}',${isMulti})">
+          <div class="option-item" data-qid="${q.id}" data-letter="${opt.letter}" data-multi="${isMulti}" role="${isMulti ? 'checkbox' : 'radio'}" tabindex="-1" aria-checked="false" onclick="selectOption(${q.id},'${opt.letter}',${isMulti})">
             <div class="option-radio ${isMulti ? 'checkbox-style' : ''}"></div>
             <div class="option-letter">${opt.letter}</div>
             <div class="option-text">${opt.text}</div>
@@ -2133,7 +2156,9 @@ function selectOption(qid, letter, isMulti) {
   const options = $$(`#options-${qid} .option-item`);
   options.forEach(opt => {
     const l = opt.dataset.letter;
-    opt.classList.toggle("selected", state.answers[qid].includes(l));
+    const isSelected = state.answers[qid].includes(l);
+    opt.classList.toggle("selected", isSelected);
+    opt.setAttribute("aria-checked", isSelected ? "true" : "false");
   });
 
   // Enable submit button
@@ -2176,11 +2201,16 @@ function submitAnswer(qid) {
     const l = opt.dataset.letter;
     opt.classList.add("disabled");
     opt.classList.remove("selected");
+    opt.setAttribute("aria-disabled", "true");
 
     if (q.answer.includes(l)) {
       opt.classList.add("correct");
+      opt.setAttribute("aria-checked", "true");
     } else if (userAnswers.includes(l)) {
       opt.classList.add("incorrect");
+      opt.setAttribute("aria-checked", "false");
+    } else {
+      opt.setAttribute("aria-checked", "false");
     }
   });
 
@@ -2448,6 +2478,53 @@ function bindEvents() {
     const tabBtn = e.target.closest(".tab-btn");
     if (tabBtn) {
       setActiveTab(parseInt(tabBtn.dataset.tab));
+    }
+  });
+
+  // Keyboard navigation for quiz questions
+  document.addEventListener("keydown", (e) => {
+    const card = e.target.closest(".question-card");
+    if (!card) return;
+
+    const option = e.target.closest(".option-item");
+    const qid = parseInt(card.dataset.qid);
+
+    // Card focused (not on an option), arrow key → focus first enabled option
+    if (!option && (e.key === "ArrowDown" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowLeft")) {
+      e.preventDefault();
+      const firstOption = card.querySelector(".option-item:not(.disabled)");
+      if (firstOption) firstOption.focus();
+      return;
+    }
+
+    // Option focused
+    if (option) {
+      const allOptions = Array.from(card.querySelectorAll(".option-item"));
+      const enabledOptions = allOptions.filter(opt => !opt.classList.contains("disabled"));
+      const currentIndex = enabledOptions.indexOf(option);
+
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % enabledOptions.length;
+        enabledOptions[nextIndex].focus();
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        const prevIndex = (currentIndex - 1 + enabledOptions.length) % enabledOptions.length;
+        enabledOptions[prevIndex].focus();
+      } else if (e.key === " " || e.key === "Spacebar") {
+        e.preventDefault();
+        if (!option.classList.contains("disabled")) {
+          const letter = option.dataset.letter;
+          const isMulti = option.dataset.multi === "true";
+          selectOption(qid, letter, isMulti);
+        }
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const submitBtn = card.querySelector(`#submit-${qid}`);
+        if (submitBtn && !submitBtn.disabled && submitBtn.style.display !== "none") {
+          submitAnswer(qid);
+        }
+      }
     }
   });
 
