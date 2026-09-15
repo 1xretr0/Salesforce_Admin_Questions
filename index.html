@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Interactive Salesforce Certified Platform Administrator (PLAT-ADMN-201) Exam Simulator with 150 practice questions, study and exam modes, and real-time scoring.">
-  <title>Salesforce Admin Exam Simulator — PLAT-ADMN-201</title>
+  <meta name="description" content="Interactive Salesforce Certification Exam Simulator covering Platform Administrator (PLAT-ADMN-201) and Platform App Builder, with study and exam modes and real-time scoring.">
+  <title>Salesforce Exam Simulator — Admin &amp; App Builder</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
 </head>
@@ -15,11 +15,17 @@
     <div class="header-top">
       <!-- Brand -->
       <div class="header-brand">
-        <div class="logo-icon">☁️</div>
+        <div class="logo-icon" id="exam-icon">☁️</div>
         <h1>
-          Salesforce Admin Simulator
-          <span>PLAT-ADMN-201 · 150 Practice Questions</span>
+          <span id="exam-title">Salesforce Admin Simulator</span>
+          <span id="exam-subtitle">PLAT-ADMN-201 · 150 Practice Questions</span>
         </h1>
+      </div>
+
+      <!-- Exam Switcher -->
+      <div class="exam-switcher">
+        <label for="exam-select">Exam</label>
+        <select id="exam-select" aria-label="Choose certification exam"></select>
       </div>
 
       <!-- Global Score Matrix -->
@@ -58,34 +64,9 @@
 
   <!-- ===== MAIN CONTENT ===== -->
   <main id="app-container">
-    <div class="tab-content">
-      <!-- Tab 0: Dashboard & Guide -->
-      <div class="tab-pane active" id="tab-0" role="tabpanel"></div>
-
-      <!-- Tab 1: Configuration and Setup -->
-      <div class="tab-pane" id="tab-1" role="tabpanel"></div>
-
-      <!-- Tab 2: Object Manager and Lightning App Builder -->
-      <div class="tab-pane" id="tab-2" role="tabpanel"></div>
-
-      <!-- Tab 3: Sales and Marketing Applications -->
-      <div class="tab-pane" id="tab-3" role="tabpanel"></div>
-
-      <!-- Tab 4: Service and Support Applications -->
-      <div class="tab-pane" id="tab-4" role="tabpanel"></div>
-
-      <!-- Tab 5: Productivity and Collaboration -->
-      <div class="tab-pane" id="tab-5" role="tabpanel"></div>
-
-      <!-- Tab 6: Data and Analytics Management -->
-      <div class="tab-pane" id="tab-6" role="tabpanel"></div>
-
-      <!-- Tab 7: Automation and Agentforce -->
-      <div class="tab-pane" id="tab-7" role="tabpanel"></div>
-
-      <!-- Tab 8: Full 150-Question Simulator -->
-      <div class="tab-pane" id="tab-8" role="tabpanel"></div>
-    </div>
+    <!-- Tab panes are generated per active exam by renderTabButtons() in app.js,
+         since each exam has a different number of sections. -->
+    <div class="tab-content" id="tab-content"></div>
   </main>
 
   <!-- ===== EXAM RESULTS OVERLAY ===== -->
@@ -93,8 +74,10 @@
     <div class="results-modal"></div>
   </div>
 
-  <!-- ===== APPLICATION SCRIPT ===== -->
-  <script src="app.js?v=1.1"></script>
+  <!-- ===== QUESTION DATA + APPLICATION SCRIPT ===== -->
+  <script src="data/admin-questions.js?v=1"></script>
+  <script src="data/appbuilder-questions.js?v=1"></script>
+  <script src="app.js?v=2.0"></script>
 
 </body>
 </html>

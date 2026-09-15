@@ -130,6 +130,48 @@ body {
   margin-top: 2px;
 }
 
+/* Exam Switcher */
+.exam-switcher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exam-switcher label {
+  font-size: .78rem;
+  font-weight: 500;
+  opacity: .9;
+}
+
+.exam-switcher select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.25);
+  color: #fff;
+  padding: 6px 30px 6px 14px;
+  border-radius: 50px;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-base);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23ffffff' d='M4 6l4 4 4-4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.exam-switcher select:hover {
+  background-color: rgba(255,255,255,.2);
+}
+
+.exam-switcher select option {
+  /* Native dropdown list renders on a light OS-drawn background regardless
+     of the app's dark theme, so use a fixed dark color here rather than
+     --text-primary (which is tuned for text on the dark header). */
+  color: #16325c;
+}
+
 /* Score Matrix */
 .score-matrix {
   display: flex;
