@@ -55,6 +55,26 @@ const EXAMS = {
       { key: APPBUILDER_CATEGORIES.APP_DEPLOYMENT, label: "App Deployment", weight: 13, desc: "Sandboxes, change sets, packages, deployment planning" },
       { key: "FULL", label: "Full Exam", icon: "🎯" }
     ]
+  },
+  agentforce: {
+    id: "agentforce",
+    icon: "🤖",
+    name: "Agentforce Specialist",
+    fullName: "Salesforce Certified Agentforce Specialist",
+    subtitle: "Agentforce Specialist",
+    questions: AGENTFORCE_QUESTIONS,
+    categories: AGENTFORCE_CATEGORIES,
+    examCount: 60,
+    timerMinutes: 105,
+    passingScore: 73,
+    tabs: [
+      { key: null, label: "Dashboard", icon: "📊" },
+      { key: AGENTFORCE_CATEGORIES.AGENTFORCE_CONCEPTS, label: "Agentforce Concepts", weight: 33, desc: "Agents, subagents, actions, Agent Script, multi-agent patterns, Agent API" },
+      { key: AGENTFORCE_CATEGORIES.PROMPT_ENGINEERING, label: "Prompt Engineering", weight: 21, desc: "Prompt Builder, template types, merge fields, grounding, permissions" },
+      { key: AGENTFORCE_CATEGORIES.AGENTFORCE_AND_DATA_360, label: "Data 360", weight: 19, desc: "Data libraries, DLOs/DMOs, search indexes, retrievers, chunking, RAG" },
+      { key: AGENTFORCE_CATEGORIES.AGENT_DEPLOYMENT_AND_TESTING, label: "Deployment & Testing", weight: 27, desc: "Channels, Testing Center, observability, Trust Layer, deployment" },
+      { key: "FULL", label: "Full Exam", icon: "🎯" }
+    ]
   }
 };
 
@@ -436,10 +456,10 @@ function renderQuestionCard(q) {
       <div class="question-actions" id="actions-${q.id}">
         <button class="btn-submit primary" id="submit-${q.id}" disabled onclick="submitAnswer(${q.id})">Submit Answer</button>
       </div>
-      <div class="explanation-panel" id="explanation-${q.id}">
+      ${q.explanation ? `<div class="explanation-panel" id="explanation-${q.id}">
         <h4>💡 Explanation</h4>
         <p>${q.explanation}</p>
-      </div>
+      </div>` : ""}
     </div>
   `;
 }

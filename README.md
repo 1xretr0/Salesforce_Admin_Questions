@@ -1,17 +1,18 @@
 # Salesforce Certification Exam Simulator
 
-An interactive practice exam simulator covering two Salesforce certifications:
+An interactive practice exam simulator covering three Salesforce certifications:
 
 - **Platform Administrator (PLAT-ADMN-201)** — 150 real exam-style questions, 7 sections
 - **Platform App Builder** — 351 real exam-style questions, 5 sections
+- **Agentforce Specialist** — 131 exam-style questions, 4 sections (no explanations in the source material)
 
-Switch between certifications from a dropdown in the header — each exam gets its own question bank, section weighting, timer, and passing score, with detailed explanations and two study modes.
+Switch between certifications from a dropdown in the header — each exam gets its own question bank, section weighting, timer, and passing score, with explanations (where the source provides them) and two study modes.
 
 ## ✨ Features
 
 ### 📚 Comprehensive Question Banks
-- **150 Admin questions** + **351 App Builder questions**, aligned with each certification's official exam blueprint
-- Detailed explanations for every question
+- **150 Admin questions** + **351 App Builder questions** + **131 Agentforce Specialist questions**, aligned with each certification's official exam blueprint
+- Detailed explanations for every Admin and App Builder question (Agentforce Specialist questions have none; the explanation box is simply hidden)
 - Questions organized by certification section:
   - **Admin (PLAT-ADMN-201)**
     - Configuration and Setup (13%)
@@ -27,6 +28,11 @@ Switch between certifications from a dropdown in the header — each exam gets i
     - Business Logic and Process Automation (32%)
     - User Interface (17%)
     - App Deployment (13%)
+  - **Agentforce Specialist** (weights derived from question counts per section)
+    - Agentforce Concepts (33%)
+    - Prompt Engineering (21%)
+    - Agentforce and Data 360 (19%)
+    - Agent Deployment and Testing (27%)
 
 ### 🔀 Exam Switcher
 - One dropdown in the header swaps the entire app between certifications
@@ -46,7 +52,7 @@ Switch between certifications from a dropdown in the header — each exam gets i
 - A fresh **weighted 60-question sample** is drawn from the full bank each time you start, proportioned to match the real exam's section weights
 - No feedback until completion
 - Submit exam to see full results, scored out of 60
-- Pass/fail scoring (68% for Admin, 63% for App Builder)
+- Pass/fail scoring (68% for Admin, 63% for App Builder, 73% for Agentforce Specialist)
 - Per-section performance breakdown
 
 ### 🎨 Premium Design
@@ -85,7 +91,7 @@ There is no password gate — the app loads directly into Study Mode on the Admi
 
 ## 📖 How to Use
 
-1. **Pick a certification** using the "Exam" dropdown in the header (Admin 201 or Platform App Builder)
+1. **Pick a certification** using the "Exam" dropdown in the header (Admin 201, Platform App Builder, or Agentforce Specialist)
 2. **Choose your mode** using the Study/Exam toggle in the header
 3. **Navigate sections** using the tab bar (or start with the last tab for full-bank practice)
 4. **Select answers** by clicking options (multiple-choice questions allow multiple selections)
@@ -107,12 +113,12 @@ There is no password gate — the app loads directly into Study Mode on the Admi
 
 ## 📊 Scoring
 
-| | Admin (PLAT-ADMN-201) | Platform App Builder |
-|---|---|---|
-| Question bank | 150 | 351 |
-| Exam-mode sample size | 60 | 60 |
-| Timer | 105 minutes | 105 minutes |
-| Passing score | 68% | 63% |
+| | Admin (PLAT-ADMN-201) | Platform App Builder | Agentforce Specialist |
+|---|---|---|---|
+| Question bank | 150 | 351 | 131 |
+| Exam-mode sample size | 60 | 60 | 60 |
+| Timer | 105 minutes | 105 minutes | 105 minutes |
+| Passing score | 68% | 63% | 73% |
 
 - **Progress Tracking**: Real-time counter shows answered vs. total for the active exam
 - **Section Breakdown**: See performance by exam topic area
@@ -139,12 +145,9 @@ There is no password gate — the app loads directly into Study Mode on the Admi
 ├── app.js                               # Shared engine: EXAMS registry, state, rendering, scoring, event handlers
 ├── data/
 │   ├── admin-questions.js               # ADMIN_CATEGORIES + ADMIN_QUESTIONS (150 questions)
-│   └── appbuilder-questions.js          # APPBUILDER_CATEGORIES/SECTIONS + APPBUILDER_QUESTIONS (351 questions)
-├── scripts/
-│   └── parse_appbuilder.py              # One-off ETL: source markdown -> data/appbuilder-questions.js
+│   ├── appbuilder-questions.js          # APPBUILDER_CATEGORIES/SECTIONS + APPBUILDER_QUESTIONS (351 questions)
+│   └── agentforce-questions.js          # AGENTFORCE_CATEGORIES/SECTIONS + AGENTFORCE_QUESTIONS (131 questions, blank explanations)
 ├── styles.css                           # Complete styling, including the exam-switcher control
-├── Plat-Admn-201.md                     # Admin source questions (reference only)
-├── app_builder_practice_questions.md    # App Builder source questions (reference only)
 ├── CLAUDE.md                            # Developer documentation
 └── README.md                            # This file
 ```
@@ -199,6 +202,14 @@ No build step or environment variables required—just upload the files.
 
 **Exam Details:** 60 scored questions (plus unscored questions on the real exam) · 105 minutes · 63% passing score · proctored online or at a testing center.
 
+**Salesforce Certified Agentforce Specialist** validates the ability to build, configure, and deploy Agentforce agents. This simulator's Agentforce bank covers:
+- Agentforce concepts (agents, subagents, actions, Agent Script, multi-agent patterns)
+- Prompt engineering with Prompt Builder
+- Agentforce and Data 360 (data libraries, retrievers, RAG)
+- Agent deployment and testing (channels, Testing Center, observability, Trust Layer)
+
+Section weights here are derived from the question counts in the source bank (the source PDF states none). The 73% passing score and 60-question / 105-minute format are the configured simulator defaults. The source has no explanations, so the explanation panel is not shown for this exam.
+
 ## 📝 License
 
 This is an educational project for certification preparation. All Salesforce trademarks and exam content are property of Salesforce.com, Inc.
@@ -207,7 +218,7 @@ This is an educational project for certification preparation. All Salesforce tra
 
 To add questions or improve functionality:
 1. Fork the repository
-2. Add questions to `data/admin-questions.js` (`ADMIN_QUESTIONS`) or `data/appbuilder-questions.js` (`APPBUILDER_QUESTIONS`)
+2. Add questions to `data/admin-questions.js` (`ADMIN_QUESTIONS`) `data/appbuilder-questions.js` (`APPBUILDER_QUESTIONS`), or `data/agentforce-questions.js` (`AGENTFORCE_QUESTIONS`)
 3. Follow the existing question object structure (see `CLAUDE.md` for the schema)
 4. Submit a pull request with detailed description
 
